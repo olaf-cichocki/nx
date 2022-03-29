@@ -1,13 +1,15 @@
 // TODO(caleb): this feels wrong? but unsure how else to use cypress types
 //  without causing issues in testing types from jest
 /// <reference types="cypress" />
-import {Node, SyntaxKind} from 'typescript';
+import { Node, SyntaxKind } from 'typescript';
 
 export type CypressConfig = Cypress.ConfigOptions;
 type CypressComponentProperties = keyof CypressConfig['component'];
 type CypressE2EProperties = keyof CypressConfig['e2e'];
-type CypressTopLevelProperties = Exclude<keyof CypressConfig,
-  'component' | 'e2e'>;
+type CypressTopLevelProperties = Exclude<
+  keyof CypressConfig,
+  'component' | 'e2e'
+>;
 
 export type CypressConfigPropertyPath =
   | `component.${CypressComponentProperties}`
@@ -31,8 +33,10 @@ export function isBooleanLiteral(node: Node) {
  *   // Expect: { age: number; }
  *   type DuplicateProps = Intersection<Props, DefaultProps>;
  */
-export type Intersection<T extends object, U extends object> = Pick<T,
-  Extract<keyof T, keyof U> & Extract<keyof U, keyof T>>;
+export type Intersection<T extends object, U extends object> = Pick<
+  T,
+  Extract<keyof T, keyof U> & Extract<keyof U, keyof T>
+>;
 
 /**
  * SetDifference (same as Exclude)
@@ -56,8 +60,10 @@ export type SetDifference<A, B> = A extends B ? never : A;
  *   // Expect: { name: string; visible: boolean; }
  *   type DiffProps = Diff<Props, DefaultProps>;
  */
-export type Diff<T extends object, U extends object> = Pick<T,
-  SetDifference<keyof T, keyof U>>;
+export type Diff<T extends object, U extends object> = Pick<
+  T,
+  SetDifference<keyof T, keyof U>
+>;
 
 /**
  * Overwrite
@@ -69,6 +75,8 @@ export type Diff<T extends object, U extends object> = Pick<T,
  *   // Expect: { name: string; age: string; visible: boolean; }
  *   type ReplacedProps = Overwrite<Props, NewProps>;
  */
-export type Overwrite<T extends object,
+export type Overwrite<
+  T extends object,
   U extends object,
-  I = Diff<T, U> & Intersection<U, T>> = Pick<I, keyof I>;
+  I = Diff<T, U> & Intersection<U, T>
+> = Pick<I, keyof I>;

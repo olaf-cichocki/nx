@@ -58,8 +58,10 @@ const devServerPositionalArgument = ['tsConfig', 'compiler'] as const;
  * Does not support cypress.config.json. use updateJson from @nrwl/devkit
  */
 export class CypressConfigTransformer {
-  private static configMetadataMap = new Map<string,
-    PrimitiveValue | Map<string, PrimitiveValue | DevServer>>();
+  private static configMetadataMap = new Map<
+    string,
+    PrimitiveValue | Map<string, PrimitiveValue | DevServer>
+  >();
 
   private static propertiesToRemove: CypressConfigPropertyPath[] = [];
 
@@ -80,7 +82,7 @@ export class CypressConfigTransformer {
     );
 
     const transformedResult = transform(this.sourceFile, [
-      this.changePropertiesTransformer({type: 'delete'}),
+      this.changePropertiesTransformer({ type: 'delete' }),
     ]);
 
     return createPrinter().printFile(transformedResult.transformed[0]);
